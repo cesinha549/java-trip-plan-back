@@ -1,5 +1,7 @@
 HELP.md
 target/
+.idea/*
+!.idea/.name
 !.mvn/wrapper/maven-wrapper.jar
 !**/src/main/**/target/
 !**/src/test/**/target/
