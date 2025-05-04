@@ -1,6 +1,8 @@
 package com.travelplanner.adapter.in.web;
 
 import com.travelplanner.adapter.in.web.dto.PlaceDTO;
+import com.travelplanner.core.port.in.Place;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
@@ -10,21 +12,16 @@ import java.util.List;
 @RequestMapping("/api/places")
 public class PlaceController {
 
+    private final Place place;
+
+    public PlaceController(Place place) {
+        this.place = place;
+    }
+
     @GetMapping("/{id}")
     public PlaceDTO getPlaceById(@PathVariable String id) {
 
-     return PlaceDTO.builder()
-                .id("123")
-                .name("Christ the Redeemer")
-                .description("Famous statue in Rio")
-                .category("landmark")
-                .latitude(-22.9519)
-                .longitude(-43.2105)
-                .city("Rio de Janeiro")
-                .country("Brazil")
-                .rating(4.9)
-                .source("internal")
-                .build();
+     return PlaceDTO.fromDomain(place.getPlace(Integer.getInteger(id)));
     }
 
     @GetMapping("")
@@ -33,25 +30,10 @@ public class PlaceController {
                                     @RequestParam(required = false) Integer radius,
                                     @RequestParam(required = false) String city,
                                     @RequestParam(required = false) String state,
-                                    @RequestParam(required = false) String country) {
+                                    @RequestParam(required = false) String country,
+                                    @RequestParam(required = false) String category) {
 
-        List<PlaceDTO> places = new ArrayList<PlaceDTO>();
 
-       PlaceDTO place =   PlaceDTO.builder()
-                .id("123")
-                .name("Christ the Redeemer")
-                .description("Famous statue in Rio")
-                .category("landmark")
-                .latitude(-22.9519)
-                .longitude(-43.2105)
-                .city("Rio de Janeiro")
-                .country("Brazil")
-                .rating(4.9)
-                .source("internal")
-                .build();
-       places.add(place);
-       places.add(place);
-
-       return places;
+       return PlaceDTO.fromDomainList(place.getPlaces(0.0,0.0,0,city,state,country,category));
     }
 }

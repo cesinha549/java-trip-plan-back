@@ -1,7 +1,11 @@
 package com.travelplanner.adapter.in.web.dto;
 
+import com.travelplanner.core.model.PlaceModel;
 import lombok.Builder;
 import lombok.Data;
+
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Data
 @Builder
@@ -17,18 +21,24 @@ public class PlaceDTO {
     private double rating;     // Optional: if integrated with Yelp/Google
     private String source;     // Optional: "internal", "yelp", "google", etc.
 
-//    public static PlaceDTO fromDomain(Place place) {
-//        return PlaceDTO.builder()
-//                .id(place.getId())
-//                .name(place.getName())
-//                .description(place.getDescription())
-//                .category(place.getCategory())
-//                .latitude(place.getLatitude())
-//                .longitude(place.getLongitude())
-//                .city(place.getCity())
-//                .country(place.getCountry())
-//                .rating(place.getRating())
-//                .source(place.getSource())
-//                .build();
-//    }
+    public static PlaceDTO fromDomain(PlaceModel place) {
+        return PlaceDTO.builder()
+                .id(place.getId())
+                .name(place.getName())
+                .description(place.getDescription())
+                .category(place.getCategory())
+                .latitude(place.getLatitude())
+                .longitude(place.getLongitude())
+                .city(place.getCity())
+                .country(place.getCountry())
+                .rating(place.getRating())
+                .source(place.getSource())
+                .build();
+    }
+
+    public static List<PlaceDTO> fromDomainList(List<PlaceModel> places) {
+        return places.stream()
+                .map(PlaceDTO::fromDomain)
+                .collect(Collectors.toList());
+    }
 }
