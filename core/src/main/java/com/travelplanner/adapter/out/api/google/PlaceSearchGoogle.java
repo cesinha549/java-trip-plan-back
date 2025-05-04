@@ -1,9 +1,8 @@
-package com.travelplanner.adapter.out.api;
+package com.travelplanner.adapter.out.api.google;
 
 import com.travelplanner.core.model.PlaceModel;
-import com.travelplanner.core.port.out.GoogleMapper;
-import com.travelplanner.core.port.out.GooglePlaceResponseDTO;
-import com.travelplanner.core.port.out.GoogleRequestDTO;
+import com.travelplanner.adapter.out.api.google.dto.GooglePlaceResponseDTO;
+import com.travelplanner.adapter.out.api.google.dto.GoogleRequestDTO;
 import com.travelplanner.core.port.out.PlaceSearchPort;
 
 import org.springframework.beans.factory.annotation.Value;

@@ -1,4 +1,4 @@
-package com.travelplanner.core.port.out;
+package com.travelplanner.adapter.out.api.google.dto;
 
 import lombok.Builder;
 import lombok.Data;

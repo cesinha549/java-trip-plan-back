@@ -1,5 +1,8 @@
-package com.travelplanner.core.port.out;
+package com.travelplanner.adapter.out.api.google;
 
+import com.travelplanner.adapter.out.api.google.dto.GoogleAddressComponentDTO;
+import com.travelplanner.adapter.out.api.google.dto.GooglePlaceDTO;
+import com.travelplanner.adapter.out.api.google.dto.GooglePlaceResponseDTO;
 import com.travelplanner.core.model.PlaceModel;
 import org.springframework.stereotype.Component;
 

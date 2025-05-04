@@ -1,6 +1,5 @@
-package com.travelplanner.core.port.out;
+package com.travelplanner.adapter.out.api.google.dto;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Builder;
 import lombok.Data;
 
