@@ -2,13 +2,18 @@ package com.travelplanner.core.trip.adapter.out.db;
 
 import com.travelplanner.core.trip.domain.model.DestinationModel;
 import com.travelplanner.core.trip.domain.model.TripModel;
-import com.travelplanner.feature.place.adapter.in.web.dto.TripRequestDTO;
+import com.travelplanner.core.trip.adapter.in.web.dto.TripRequestDTO;
+import com.travelplanner.feature.place.adapter.out.db.PlaceMapper;
 import org.springframework.stereotype.Component;
+
+import java.util.stream.Collectors;
 
 @Component
 public class TripMapper {
 
     public TripEntity toEntity(TripModel model) {
+
+
         TripEntity entity = new TripEntity();
         DestinationEntity destination = new DestinationEntity();
         destination.setCity(model.getDestination().getCity());
@@ -20,6 +25,16 @@ public class TripMapper {
         entity.setStartDate(model.getStartDate());
         entity.setEndDate(model.getEndDate());
         entity.setBudget(model.getBudget());
+
+        var placeEntities = model.getSuggestedPlaces()
+                .stream()
+                .map(placeModel -> {
+                    var placeEntity = PlaceMapper.toEntity(placeModel);
+                    placeEntity.setTrip(entity); // Link the trip here
+                    return placeEntity;
+                })
+                .toList();
+        entity.setPlaces(placeEntities);
         return entity;
     }
 
