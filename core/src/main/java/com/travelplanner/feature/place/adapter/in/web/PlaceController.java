@@ -19,7 +19,7 @@ public class PlaceController {
     @GetMapping("/{id}")
     public PlaceResponseDTO getPlaceById(@PathVariable String id) {
 
-     return PlaceResponseDTO.fromDomain(placeUseCase.getPlace(Integer.getInteger(id)));
+     return PlaceResponseDTO.fromDomain(placeUseCase.getPlace(Integer.parseInt(id)));
     }
 
     @GetMapping("")
@@ -32,6 +32,6 @@ public class PlaceController {
                                             @RequestParam(required = false) String category) {
 
 
-       return PlaceResponseDTO.fromDomainList(placeUseCase.getPlaces(0.0,0.0,0,city,state,country,category));
+       return PlaceResponseDTO.fromDomainList(placeUseCase.getPlaces(lat,lng,radius,city,state,country,category));
     }
 }
