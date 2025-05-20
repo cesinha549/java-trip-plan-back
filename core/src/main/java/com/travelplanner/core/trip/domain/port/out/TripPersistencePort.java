@@ -8,6 +8,5 @@ public interface TripPersistencePort {
 
     public TripModel save(TripModel tripModel);
 
-
     public Optional<TripModel> findById(String id);
 }
