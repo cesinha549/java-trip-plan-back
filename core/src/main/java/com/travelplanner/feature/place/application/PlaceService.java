@@ -1,7 +1,5 @@
 package com.travelplanner.feature.place.application;
 
-import com.travelplanner.core.trip.domain.model.TripModel;
-import com.travelplanner.core.trip.domain.port.out.TripPersistencePort;
 import com.travelplanner.feature.place.domain.model.PlaceModel;
 import com.travelplanner.feature.place.domain.port.in.PlaceUseCase;
 import com.travelplanner.feature.place.domain.port.out.PlaceSearchPort;
@@ -14,11 +12,8 @@ public class PlaceService implements PlaceUseCase {
 
     private final PlaceSearchPort placeSearchPort;
 
-    private final TripPersistencePort tripPersistencePort;
-
-    public PlaceService(PlaceSearchPort placeSearchPort, TripPersistencePort tripPersistencePort) {
+    public PlaceService(PlaceSearchPort placeSearchPort) {
         this.placeSearchPort = placeSearchPort;
-        this.tripPersistencePort = tripPersistencePort;
     }
 
     @Override
@@ -56,17 +51,4 @@ public class PlaceService implements PlaceUseCase {
 
     }
 
-    public List<PlaceModel> startTripAndSuggestPlaces(TripModel tripModel) {
-        // Save the trip
-        TripModel savedTrip = tripPersistencePort.save(tripModel);
-
-        // Get places based on trip location + category
-        return placeSearchPort.searchPlaces(
-                0.0, 0.0, 0,
-                savedTrip.getDestination().getCity(),
-                savedTrip.getDestination().getState(),
-                savedTrip.getDestination().getCountry(),
-                "tourist_attraction" // or use tripModel.getTags().get(0), etc
-        );
-    }
 }

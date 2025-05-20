@@ -1,8 +1,10 @@
 package com.travelplanner.core.trip.domain.model;
 
+import com.travelplanner.feature.place.domain.model.PlaceModel;
 import lombok.Data;
 
 import java.time.LocalDate;
+import java.util.List;
 
 @Data
 public class TripModel {
@@ -12,4 +14,5 @@ public class TripModel {
     private LocalDate startDate;
     private LocalDate endDate;
     private double budget;
+    private List<PlaceModel> suggestedPlaces;
 }

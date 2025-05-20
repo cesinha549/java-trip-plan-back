@@ -1,4 +1,4 @@
-package com.travelplanner.feature.place.adapter.in.web.dto;
+package com.travelplanner.core.trip.adapter.in.web.dto;
 
 import lombok.Data;
 

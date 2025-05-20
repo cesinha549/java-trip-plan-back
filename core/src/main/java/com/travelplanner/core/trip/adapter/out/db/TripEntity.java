@@ -1,10 +1,12 @@
 package com.travelplanner.core.trip.adapter.out.db;
 
+import com.travelplanner.feature.place.adapter.out.db.PlaceEntity;
 import jakarta.persistence.*;
 import lombok.Data;
 
 
 import java.time.LocalDate;
+import java.util.List;
 
 @Entity
 @Table(name = "trips")
@@ -21,6 +23,9 @@ public class TripEntity {
     private LocalDate startDate;
     private LocalDate endDate;
     private double budget;
+    @OneToMany(cascade = CascadeType.ALL) // Saves destination when trip is saved
+    @JoinColumn(name = "place_id")
+    private List<PlaceEntity> places;
 
     // getters/setters
 }

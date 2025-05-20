@@ -26,7 +26,6 @@ public interface PlaceUseCase {
     void reviewPlace(Integer id, Integer grade);
     void addPhotoPlace(Integer id,String base64);
     void addCommentPlace(Integer id,String comment);
-    public List<PlaceModel> startTripAndSuggestPlaces(TripModel tripModel);
 
 
 }
