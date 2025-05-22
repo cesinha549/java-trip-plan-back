@@ -1,11 +1,12 @@
 package com.travelplanner.core.user.domain.port.out;
 
 
-import com.travelplanner.core.user.domain.model.register.UserRegisterRequestModel;
+import com.travelplanner.core.user.domain.model.UserModel;
+import com.travelplanner.core.user.domain.model.register.UserRegisterResponseModel;
 
 public interface UserPersistencePort {
 
-    public String saveUser(UserRegisterRequestModel tripModel);
+    public UserRegisterResponseModel saveUser(UserModel userModel);
 
     public String findUser(String userName);
 }
