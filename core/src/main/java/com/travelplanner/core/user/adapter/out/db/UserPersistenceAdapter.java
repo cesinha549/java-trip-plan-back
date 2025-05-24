@@ -5,25 +5,40 @@ import com.travelplanner.core.user.domain.model.register.UserRegisterResponseMod
 import com.travelplanner.core.user.domain.port.out.UserPersistencePort;
 import org.springframework.stereotype.Service;
 
+import java.util.Set;
+
 @Service
 public class UserPersistenceAdapter implements UserPersistencePort {
 
     private final UserRepository userRepository;
 
-    public UserPersistenceAdapter(UserRepository userRepository) {
+    private  final RoleRepository roleRepository;
+
+    public UserPersistenceAdapter(UserRepository userRepository, RoleRepository roleRepository) {
         this.userRepository = userRepository;
+        this.roleRepository = roleRepository;
     }
 
     @Override
     public UserRegisterResponseModel saveUser(UserModel userModel) {
 
-     var  userRegister = userRepository.save(UserMapper.toEntity(userModel));
 
-     return new UserRegisterResponseModel(userRegister.getId());
+        RoleEntity travellerRole = roleRepository.findByName("TRAVELLER")
+                .orElseThrow(() -> new RuntimeException("Role not found"));
+
+        Set<RoleEntity> roles = Set.of(travellerRole);
+
+        UserEntity entity = UserMapper.toEntity(userModel, roles);
+        UserEntity saved = userRepository.save(entity);
+
+        return new UserRegisterResponseModel(saved.getId());
     }
 
     @Override
-    public String findUser(String userName) {
-        return "";
+    public UserModel findUser(String userName) {
+       UserEntity  userEntity = userRepository.findByEmail(userName).orElseThrow(() -> new RuntimeException("User Not Found"));
+
+      return  UserMapper.fromEntity(userEntity);
+
     }
 }

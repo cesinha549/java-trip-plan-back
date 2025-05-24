@@ -28,7 +28,7 @@ public class UserController {
 
     @PostMapping("/login")
     public ResponseEntity<UserLoginResponseDTO> login(@RequestBody UserLoginRequestDTO request) {
-        // authenticate and return JWT
-        return null;
+        var model = userUseCase.login(request.toDomain());
+        return ResponseEntity.ok(UserLoginResponseDTO.fromDomain(model));
     }
 }

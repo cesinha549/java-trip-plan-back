@@ -8,5 +8,5 @@ public interface UserPersistencePort {
 
     public UserRegisterResponseModel saveUser(UserModel userModel);
 
-    public String findUser(String userName);
+    public UserModel findUser(String userName);
 }
