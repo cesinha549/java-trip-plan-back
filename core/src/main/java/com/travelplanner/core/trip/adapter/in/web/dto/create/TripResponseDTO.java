@@ -1,4 +1,4 @@
-package com.travelplanner.core.trip.adapter.in.web.dto;
+package com.travelplanner.core.trip.adapter.in.web.dto.create;
 
 import com.travelplanner.core.trip.domain.model.DestinationModel;
 import com.travelplanner.core.trip.domain.model.TripModel;

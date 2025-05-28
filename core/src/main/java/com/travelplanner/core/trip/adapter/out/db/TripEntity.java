@@ -1,11 +1,13 @@
 package com.travelplanner.core.trip.adapter.out.db;
 
 import com.travelplanner.feature.place.adapter.out.db.PlaceEntity;
+import com.travelplanner.feature.place.adapter.out.db.TripPlaceEntity;
 import jakarta.persistence.*;
 import lombok.Data;
 
 
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -23,9 +25,8 @@ public class TripEntity {
     private LocalDate startDate;
     private LocalDate endDate;
     private double budget;
-    @OneToMany(cascade = CascadeType.ALL) // Saves destination when trip is saved
-    @JoinColumn(name = "place_id")
-    private List<PlaceEntity> places;
+    @OneToMany(mappedBy = "trip", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<TripPlaceEntity> tripPlaces = new ArrayList<>();
 
     // getters/setters
 }

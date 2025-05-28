@@ -1,8 +1,10 @@
 package com.travelplanner.feature.place.domain.port.in;
 
 import com.travelplanner.core.trip.domain.model.TripModel;
+import com.travelplanner.feature.place.adapter.out.db.PlaceEntity;
 import com.travelplanner.feature.place.domain.model.PlaceModel;
 import java.util.List;
+import java.util.Optional;
 
 public interface PlaceUseCase {
 
@@ -14,7 +16,7 @@ public interface PlaceUseCase {
                                 String country,
                                 String category
                                 );
-    PlaceModel getPlace(Integer id);
+   PlaceEntity getPlace(String id);
     Integer addPlace(Double lat,
                      Double lng,
                      String city,

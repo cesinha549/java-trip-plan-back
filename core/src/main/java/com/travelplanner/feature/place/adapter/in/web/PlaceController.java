@@ -19,7 +19,8 @@ public class PlaceController {
     @GetMapping("/{id}")
     public PlaceResponseDTO getPlaceById(@PathVariable String id) {
 
-     return PlaceResponseDTO.fromDomain(placeUseCase.getPlace(Integer.parseInt(id)));
+//     return PlaceResponseDTO.fromDomain(placeUseCase.getPlace(id));
+        return null;
     }
 
     @GetMapping("")
