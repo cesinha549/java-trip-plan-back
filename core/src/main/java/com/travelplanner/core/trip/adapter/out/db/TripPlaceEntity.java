@@ -1,6 +1,5 @@
-package com.travelplanner.feature.place.adapter.out.db;
+package com.travelplanner.core.trip.adapter.out.db;
 
-import com.travelplanner.core.trip.adapter.out.db.TripEntity;
 import jakarta.persistence.*;
 import lombok.Builder;
 
@@ -19,9 +18,8 @@ public class TripPlaceEntity {
     @JoinColumn(name = "trip_id")
     private TripEntity trip;
 
-    @ManyToOne
-    @JoinColumn(name = "place_id")
-    private PlaceEntity place;
+    @Column(name = "place_id")
+    private String placeId;
 
     // Optional metadata
     private Integer orderInTrip;

@@ -1,16 +1,12 @@
 package com.travelplanner.core.trip.application;
 
 import com.travelplanner.core.trip.adapter.in.web.dto.addplace.AddPlaceToTripRequestDTO;
-import com.travelplanner.core.trip.adapter.out.db.TripEntity;
 import com.travelplanner.core.trip.adapter.out.db.TripMapper;
 import com.travelplanner.core.trip.domain.model.TripModel;
 import com.travelplanner.core.trip.domain.model.TripPlaceModel;
 import com.travelplanner.core.trip.domain.port.in.TripUseCase;
 import com.travelplanner.core.trip.adapter.in.web.dto.create.TripRequestDTO;
 import com.travelplanner.core.trip.domain.port.out.TripPersistencePort;
-import com.travelplanner.feature.place.adapter.out.db.PlaceEntity;
-import com.travelplanner.feature.place.adapter.out.db.TripPlaceEntity;
-import com.travelplanner.feature.place.domain.model.PlaceModel;
 import com.travelplanner.feature.place.domain.port.in.PlaceUseCase;
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.stereotype.Service;
@@ -53,18 +49,16 @@ public class CreateTripService implements TripUseCase {
     }
 
     @Override
-    public void addPlaceToTrip(AddPlaceToTripRequestDTO dto) {
-        TripModel trip = tripPersistencePort.findById(dto.getTripId())
+    public void addPlaceToTrip(AddPlaceToTripRequestDTO addPlaceToTripRequestDTO) {
+        TripModel trip = tripPersistencePort.findById(addPlaceToTripRequestDTO.getTripId())
                 .orElseThrow(() -> new EntityNotFoundException("Trip not found"));
-
-        PlaceEntity place = placeUseCase.getPlace(dto.getPlaceId());
 
         TripPlaceModel tripPlace = TripPlaceModel.builder()
                 .trip(trip)
-                .place(place)
-                .orderInTrip(dto.getOrder())
-                .visitDate(dto.getVisitDate())
-                .notes(dto.getNotes())
+                .placeId(addPlaceToTripRequestDTO.getPlaceId())
+                .orderInTrip(addPlaceToTripRequestDTO.getOrder())
+                .visitDate(addPlaceToTripRequestDTO.getVisitDate())
+                .notes(addPlaceToTripRequestDTO.getNotes())
                 .build();
 
         tripPersistencePort.addPlaceToTrip(tripPlace);

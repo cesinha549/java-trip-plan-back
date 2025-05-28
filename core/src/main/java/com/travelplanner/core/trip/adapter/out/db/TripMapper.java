@@ -3,8 +3,6 @@ package com.travelplanner.core.trip.adapter.out.db;
 import com.travelplanner.core.trip.domain.model.DestinationModel;
 import com.travelplanner.core.trip.domain.model.TripModel;
 import com.travelplanner.core.trip.adapter.in.web.dto.create.TripRequestDTO;
-import com.travelplanner.feature.place.adapter.out.db.PlaceEntity;
-import com.travelplanner.feature.place.adapter.out.db.TripPlaceEntity;
 import org.springframework.stereotype.Component;
 
 import java.time.LocalDate;
@@ -59,10 +57,10 @@ public class TripMapper {
         return trip;
     }
 
-    public TripPlaceEntity toTripPlace(TripEntity trip, PlaceEntity place, Integer order, LocalDate visitDate, String notes) {
+    public TripPlaceEntity toTripPlace(TripEntity trip, String placeId, Integer order, LocalDate visitDate, String notes) {
         return TripPlaceEntity.builder()
                 .trip(trip)
-                .place(place)
+                .placeId(placeId)
                 .orderInTrip(order)
                 .visitDate(visitDate)
                 .notes(notes)

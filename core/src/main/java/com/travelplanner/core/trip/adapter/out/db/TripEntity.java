@@ -1,7 +1,5 @@
 package com.travelplanner.core.trip.adapter.out.db;
 
-import com.travelplanner.feature.place.adapter.out.db.PlaceEntity;
-import com.travelplanner.feature.place.adapter.out.db.TripPlaceEntity;
 import jakarta.persistence.*;
 import lombok.Data;
 

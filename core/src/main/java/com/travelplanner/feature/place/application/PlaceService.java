@@ -1,6 +1,7 @@
 package com.travelplanner.feature.place.application;
 
 import com.travelplanner.feature.place.adapter.out.db.PlaceEntity;
+import com.travelplanner.feature.place.adapter.out.db.PlaceMapper;
 import com.travelplanner.feature.place.domain.model.PlaceModel;
 import com.travelplanner.feature.place.domain.port.in.PlaceUseCase;
 import com.travelplanner.feature.place.domain.port.out.PlaceSearchPort;
@@ -29,9 +30,12 @@ public class PlaceService implements PlaceUseCase {
     }
 
     @Override
-    public PlaceEntity getPlace(String id) {
-        return placePersistencePort.findByIdEntity(String.valueOf(id))
+    public PlaceModel getPlace(String id) {
+
+        var placeEntity = placePersistencePort.findByIdEntity(String.valueOf(id))
                 .orElseThrow(() -> new EntityNotFoundException("Place not found with id: " + id));
+
+        return PlaceMapper.toModel(placeEntity);
     }
 
     @Override

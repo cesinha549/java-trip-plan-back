@@ -16,7 +16,7 @@ public interface PlaceUseCase {
                                 String country,
                                 String category
                                 );
-   PlaceEntity getPlace(String id);
+   PlaceModel getPlace(String id);
     Integer addPlace(Double lat,
                      Double lng,
                      String city,
