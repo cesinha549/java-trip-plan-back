@@ -8,6 +8,7 @@ import java.util.List;
 @Data
 public class TripRequestDTO {
 
+        private String userId;
         private String name;
         private String city;
         private String state;

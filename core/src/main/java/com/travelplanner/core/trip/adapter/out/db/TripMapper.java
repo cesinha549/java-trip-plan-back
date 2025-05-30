@@ -23,6 +23,7 @@ public class TripMapper {
         entity.setStartDate(model.getStartDate());
         entity.setEndDate(model.getEndDate());
         entity.setBudget(model.getBudget());
+        entity.setUserId(model.getUserId());
         return entity;
     }
 
@@ -38,6 +39,7 @@ public class TripMapper {
         model.setStartDate(entity.getStartDate());
         model.setEndDate(entity.getEndDate());
         model.setBudget(entity.getBudget());
+        model.setUserId(entity.getUserId());
         return model;
     }
 
@@ -46,6 +48,7 @@ public class TripMapper {
         trip.setName(dto.getName());
         trip.setStartDate(dto.getStartDate());
         trip.setEndDate(dto.getEndDate());
+        trip.setUserId(dto.getUserId());
 
         DestinationModel destination = new DestinationModel();
         destination.setCity(dto.getCity());

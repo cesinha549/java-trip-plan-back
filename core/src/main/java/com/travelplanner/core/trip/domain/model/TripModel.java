@@ -8,6 +8,8 @@ import java.util.List;
 
 @Data
 public class TripModel {
+
+    private String userId;
     private String id;
     private String name;
     private DestinationModel destination;

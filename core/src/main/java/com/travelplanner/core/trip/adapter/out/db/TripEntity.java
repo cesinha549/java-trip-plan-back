@@ -16,6 +16,8 @@ public class TripEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
     private String id;
+    @Column(name = "user_id", nullable = false)
+    private String userId;
     private String name;
     @OneToOne(cascade = CascadeType.ALL) // Saves destination when trip is saved
     @JoinColumn(name = "destination_id", referencedColumnName = "id")
