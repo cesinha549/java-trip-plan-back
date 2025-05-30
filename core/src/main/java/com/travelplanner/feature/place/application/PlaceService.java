@@ -1,6 +1,7 @@
 package com.travelplanner.feature.place.application;
 
-import com.travelplanner.feature.place.adapter.out.db.PlaceEntity;
+import com.travelplanner.core.trip.domain.model.TripModel;
+import com.travelplanner.core.trip.domain.port.out.TripQueryPort;
 import com.travelplanner.feature.place.adapter.out.db.PlaceMapper;
 import com.travelplanner.feature.place.domain.model.PlaceModel;
 import com.travelplanner.feature.place.domain.port.in.PlaceUseCase;
@@ -17,10 +18,12 @@ public class PlaceService implements PlaceUseCase {
 
     private final PlaceSearchPort placeSearchPort;
     private final PlacePersistencePort placePersistencePort;
+    private final TripQueryPort tripQueryPort; // if this were separated projects thiw would be an httpCall
 
-    public PlaceService(PlaceSearchPort placeSearchPort, PlacePersistencePort placePersistencePort) {
+    public PlaceService(PlaceSearchPort placeSearchPort, PlacePersistencePort placePersistencePort, TripQueryPort tripQueryPort) {
         this.placeSearchPort = placeSearchPort;
         this.placePersistencePort = placePersistencePort;
+        this.tripQueryPort = tripQueryPort;
     }
 
     @Override
@@ -36,6 +39,22 @@ public class PlaceService implements PlaceUseCase {
                 .orElseThrow(() -> new EntityNotFoundException("Place not found with id: " + id));
 
         return PlaceMapper.toModel(placeEntity);
+    }
+
+    @Override
+    public List<PlaceModel> suggestPlacesForTrip(String tripId) {
+        TripModel trip = tripQueryPort.findById(tripId)
+                .orElseThrow(() -> new EntityNotFoundException("Trip not found"));
+
+        List<PlaceModel> places = placeSearchPort.searchPlaces(
+                0.0, 0.0, 0,
+                trip.getDestination().getCity(),
+                trip.getDestination().getState(),
+                trip.getDestination().getCountry(),
+                "tourist_attraction"
+        );
+
+        return placePersistencePort.save(places);
     }
 
     @Override

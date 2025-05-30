@@ -1,6 +1,5 @@
 package com.travelplanner.core.trip.domain.model;
 
-import com.travelplanner.feature.place.domain.model.PlaceModel;
 import lombok.Data;
 
 import java.time.LocalDate;
@@ -16,5 +15,4 @@ public class TripModel {
     private LocalDate endDate;
     private double budget;
     private List<TripPlaceModel> tripPlaces = new ArrayList<>();
-    private List<PlaceModel> suggestedPlaces;
 }

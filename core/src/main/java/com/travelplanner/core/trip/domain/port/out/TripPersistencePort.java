@@ -9,7 +9,5 @@ public interface TripPersistencePort {
 
     public TripModel save(TripModel tripModel);
 
-    public Optional<TripModel> findById(String id);
-
     public void addPlaceToTrip(TripPlaceModel tripPlaceModel);
 }

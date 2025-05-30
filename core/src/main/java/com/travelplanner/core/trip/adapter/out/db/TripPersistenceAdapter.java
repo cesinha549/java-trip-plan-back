@@ -3,12 +3,13 @@ package com.travelplanner.core.trip.adapter.out.db;
 import com.travelplanner.core.trip.domain.model.TripModel;
 import com.travelplanner.core.trip.domain.model.TripPlaceModel;
 import com.travelplanner.core.trip.domain.port.out.TripPersistencePort;
+import com.travelplanner.core.trip.domain.port.out.TripQueryPort;
 import org.springframework.stereotype.Component;
 
 import java.util.Optional;
 
 @Component
-public class TripPersistenceAdapter implements TripPersistencePort {
+public class TripPersistenceAdapter implements TripPersistencePort, TripQueryPort {
 
     private final TripRepository tripRepository;
     private final TripMapper tripMapper;

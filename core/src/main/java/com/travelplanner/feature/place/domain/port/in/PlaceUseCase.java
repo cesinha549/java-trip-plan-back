@@ -30,4 +30,5 @@ public interface PlaceUseCase {
     void addCommentPlace(Integer id,String comment);
 
 
+    List<PlaceModel> suggestPlacesForTrip(String tripId);
 }

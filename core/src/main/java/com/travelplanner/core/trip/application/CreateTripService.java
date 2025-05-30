@@ -7,7 +7,7 @@ import com.travelplanner.core.trip.domain.model.TripPlaceModel;
 import com.travelplanner.core.trip.domain.port.in.TripUseCase;
 import com.travelplanner.core.trip.adapter.in.web.dto.create.TripRequestDTO;
 import com.travelplanner.core.trip.domain.port.out.TripPersistencePort;
-import com.travelplanner.feature.place.domain.port.in.PlaceUseCase;
+import com.travelplanner.core.trip.domain.port.out.TripQueryPort;
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.stereotype.Service;
 
@@ -17,40 +17,27 @@ public class CreateTripService implements TripUseCase {
 
     private final TripPersistencePort tripPersistencePort;
 
-    private final PlaceUseCase placeUseCase;
+    private final TripQueryPort tripQueryPort;
 
-    public CreateTripService(TripPersistencePort tripPersistencePort, PlaceUseCase placeUseCase) {
+    public CreateTripService(TripPersistencePort tripPersistencePort, TripQueryPort tripQueryPort) {
         this.tripPersistencePort = tripPersistencePort;
-        this.placeUseCase = placeUseCase;
+        this.tripQueryPort = tripQueryPort;
     }
 
     @Override
     public TripModel createTrip(TripRequestDTO tripRequest) {
 
-        // 1. Get suggested places
-        var suggestedPlaces = placeUseCase.getPlaces(
-                0.0, 0.0, 0,
-                tripRequest.getCity(),
-                tripRequest.getState(),
-                tripRequest.getCountry(),
-                "tourist_attraction"
-        );
-
         // 2. Build TripModel to save on the DB without suggested places
         TripModel trip = TripMapper.fromRequestDTO(tripRequest);
 
         // 3. Save trip (with mapped places)
-        var savedTripEntity = tripPersistencePort.save(trip);
 
-        //Add suggested places to return for the client, could be improved
-        savedTripEntity.setSuggestedPlaces(suggestedPlaces);
-
-        return savedTripEntity;
+        return tripPersistencePort.save(trip);
     }
 
     @Override
     public void addPlaceToTrip(AddPlaceToTripRequestDTO addPlaceToTripRequestDTO) {
-        TripModel trip = tripPersistencePort.findById(addPlaceToTripRequestDTO.getTripId())
+        TripModel trip = tripQueryPort.findById(addPlaceToTripRequestDTO.getTripId())
                 .orElseThrow(() -> new EntityNotFoundException("Trip not found"));
 
         TripPlaceModel tripPlace = TripPlaceModel.builder()

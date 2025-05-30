@@ -1,7 +1,9 @@
 package com.travelplanner.feature.place.adapter.in.web;
 
-import com.travelplanner.feature.place.adapter.in.web.dto.PlaceResponseDTO;
+import com.travelplanner.feature.place.adapter.in.web.dto.PlaceResponseDTO;;
+import com.travelplanner.feature.place.domain.model.PlaceModel;
 import com.travelplanner.feature.place.domain.port.in.PlaceUseCase;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -34,5 +36,12 @@ public class PlaceController {
 
 
        return PlaceResponseDTO.fromDomainList(placeUseCase.getPlaces(lat,lng,radius,city,state,country,category));
+    }
+
+    @GetMapping("/suggestions")
+    public ResponseEntity<List<PlaceResponseDTO>> getPlaceSuggestions(@RequestParam String tripId) {
+        List<PlaceModel> suggestions = placeUseCase.suggestPlacesForTrip(tripId);
+        List<PlaceResponseDTO> response = PlaceResponseDTO.fromDomainList(suggestions);
+        return ResponseEntity.ok(response);
     }
 }

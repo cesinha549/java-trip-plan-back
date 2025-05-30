@@ -22,7 +22,6 @@ public class TripResponseDTO {
     private LocalDate startDate;
     private LocalDate endDate;
     private double budget;
-    private List<PlaceResponseDTO> suggestedPlaces;
 
     public static TripResponseDTO fromDomain(TripModel model) {
         DestinationModel destination = model.getDestination();
@@ -36,9 +35,6 @@ public class TripResponseDTO {
                 .startDate(model.getStartDate())
                 .endDate(model.getEndDate())
                 .budget(model.getBudget())
-                .suggestedPlaces(model.getSuggestedPlaces() != null
-                        ? model.getSuggestedPlaces().stream().map(PlaceResponseDTO::fromDomain).collect(Collectors.toList())
-                        : null)
                 .build();
     }
 
