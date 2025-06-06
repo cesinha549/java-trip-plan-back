@@ -23,7 +23,7 @@ public class UserPersistenceAdapter implements UserPersistencePort {
     public UserRegisterResponseModel saveUser(UserModel userModel) {
 
 
-        RoleEntity travellerRole = roleRepository.findByName("TRAVELLER")
+        RoleEntity travellerRole = roleRepository.findByName("ROLE_USER")
                 .orElseThrow(() -> new RuntimeException("Role not found"));
 
         Set<RoleEntity> roles = Set.of(travellerRole);
