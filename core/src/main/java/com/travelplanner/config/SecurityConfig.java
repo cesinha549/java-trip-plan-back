@@ -2,13 +2,17 @@ package com.travelplanner.config;
 import com.travelplanner.security.JwtAuthenticationFilter;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
+import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.http.SessionCreationPolicy;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.provisioning.UserDetailsManager;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.context.annotation.Bean;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
@@ -39,10 +43,12 @@ public class SecurityConfig {
                     .csrf(csrf -> csrf.disable())
                     .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                     .authorizeHttpRequests(authz -> authz
-                            .requestMatchers("/users/**", "/auth/**").permitAll()
-                            .requestMatchers("/api/places/**").authenticated()
-                            .anyRequest().permitAll()
-                            .anyRequest().authenticated()
+                            .requestMatchers("/api/users/**").permitAll() // if necessary change to authenticated
+                            .requestMatchers("/api/trip").permitAll()
+                            .requestMatchers("/api/places/suggestions").authenticated()
+                            .requestMatchers("/api/places").authenticated()
+//                            .anyRequest().permitAll()
+//                            .anyRequest().authenticated()
                     ).addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class);
 
 
@@ -62,9 +68,16 @@ public class SecurityConfig {
         return authProvider;
     }
 
+
+    @Bean
+    public AuthenticationManager authenticationManager(AuthenticationConfiguration config) throws Exception {
+        return config.getAuthenticationManager();
+    }
+
     @Bean
     public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
     }
+
 
 }

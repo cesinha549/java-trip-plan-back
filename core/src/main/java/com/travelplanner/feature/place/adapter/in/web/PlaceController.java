@@ -4,6 +4,8 @@ import com.travelplanner.feature.place.adapter.in.web.dto.PlaceResponseDTO;;
 import com.travelplanner.feature.place.domain.model.PlaceModel;
 import com.travelplanner.feature.place.domain.port.in.PlaceUseCase;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -39,7 +41,7 @@ public class PlaceController {
     }
 
     @GetMapping("/suggestions")
-    public ResponseEntity<List<PlaceResponseDTO>> getPlaceSuggestions(@RequestParam String tripId) {
+    public ResponseEntity<List<PlaceResponseDTO>> getPlaceSuggestions(@RequestParam String tripId, @AuthenticationPrincipal UserDetails user) {
         List<PlaceModel> suggestions = placeUseCase.suggestPlacesForTrip(tripId);
         List<PlaceResponseDTO> response = PlaceResponseDTO.fromDomainList(suggestions);
         return ResponseEntity.ok(response);
