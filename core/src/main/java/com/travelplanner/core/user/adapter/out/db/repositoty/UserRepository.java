@@ -1,5 +1,6 @@
-package com.travelplanner.core.user.adapter.out.db;
+package com.travelplanner.core.user.adapter.out.db.repositoty;
 
+import com.travelplanner.core.user.adapter.out.db.entity.UserEntity;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

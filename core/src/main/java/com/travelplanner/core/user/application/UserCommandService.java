@@ -1,12 +1,14 @@
 package com.travelplanner.core.user.application;
 
 import com.travelplanner.core.user.adapter.out.db.UserMapper;
+import com.travelplanner.core.user.adapter.out.kafka.UserRegisterEventProducer;
 import com.travelplanner.core.user.domain.model.UserModel;
 import com.travelplanner.core.user.domain.model.login.UserLoginRequestModel;
 import com.travelplanner.core.user.domain.model.login.UserLoginResponseModel;
 import com.travelplanner.core.user.domain.model.register.UserRegisterRequestModel;
 import com.travelplanner.core.user.domain.model.register.UserRegisterResponseModel;
 import com.travelplanner.core.user.domain.port.in.UserCommandUseCase;
+import com.travelplanner.core.user.domain.port.out.UserEventPort;
 import com.travelplanner.core.user.domain.port.out.UserPersistencePort;
 import com.travelplanner.security.JwtUtil;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -29,11 +31,14 @@ public class UserCommandService implements UserCommandUseCase {
 
     private final AuthenticationManager authenticationManager;
 
-    public UserCommandService(UserPersistencePort userPersistencePort, JwtUtil jwtUtil, PasswordEncoder passwordEncoder, AuthenticationManager authenticationManager) {
+    private final UserEventPort userRegisterEventProducer;
+
+    public UserCommandService(UserPersistencePort userPersistencePort, JwtUtil jwtUtil, PasswordEncoder passwordEncoder, AuthenticationManager authenticationManager, UserRegisterEventProducer userRegisterEventProducer) {
         this.userPersistencePort = userPersistencePort;
         this.jwtUtil = jwtUtil;
         this.passwordEncoder = passwordEncoder;
         this.authenticationManager = authenticationManager;
+        this.userRegisterEventProducer = userRegisterEventProducer;
     }
 
     @Override
@@ -54,6 +59,7 @@ public class UserCommandService implements UserCommandUseCase {
             null
         );
 
+        userRegisterEventProducer.sendRegisterEvent();
         return userPersistencePort.saveUser(userWithRoles);
     }
 

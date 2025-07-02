@@ -1,4 +1,4 @@
-package com.travelplanner.core.user.adapter.out.db;
+package com.travelplanner.core.user.adapter.out.db.entity;
 
 import jakarta.persistence.*;
 import lombok.Data;

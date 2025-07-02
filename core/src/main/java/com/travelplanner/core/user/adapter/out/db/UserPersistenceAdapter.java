@@ -1,5 +1,9 @@
 package com.travelplanner.core.user.adapter.out.db;
 
+import com.travelplanner.core.user.adapter.out.db.entity.RoleEntity;
+import com.travelplanner.core.user.adapter.out.db.entity.UserEntity;
+import com.travelplanner.core.user.adapter.out.db.repositoty.RoleRepository;
+import com.travelplanner.core.user.adapter.out.db.repositoty.UserRepository;
 import com.travelplanner.core.user.domain.model.UserModel;
 import com.travelplanner.core.user.domain.model.register.UserRegisterResponseModel;
 import com.travelplanner.core.user.domain.port.out.UserPersistencePort;
