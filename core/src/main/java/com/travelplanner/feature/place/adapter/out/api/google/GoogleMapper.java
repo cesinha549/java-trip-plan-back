@@ -24,7 +24,7 @@ public class GoogleMapper {
             place.setName(googlePlace.getDisplayName() != null ? googlePlace.getDisplayName().getText() : "");
             place.setLatitude(googlePlace.getLocation() != null ? googlePlace.getLocation().getLatitude() : 0);
             place.setLongitude(googlePlace.getLocation() != null ? googlePlace.getLocation().getLongitude() : 0);
-            place.setRating(googlePlace.getRating());
+            place.setRating(googlePlace.getRating() != null ? googlePlace.getRating() : 0);
             place.setSource("google");
 
             // Address parsing

@@ -10,9 +10,6 @@ import lombok.Data;
 @Data
 public class PlaceEntity {
 
-    @ManyToOne
-    @JoinColumn(name = "trip_id")
-    private TripEntity trip;
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
     private String id;

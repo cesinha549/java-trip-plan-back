@@ -2,17 +2,15 @@ package com.travelplanner.core.trip.adapter.out.db;
 
 import com.travelplanner.core.trip.domain.model.DestinationModel;
 import com.travelplanner.core.trip.domain.model.TripModel;
-import com.travelplanner.core.trip.adapter.in.web.dto.TripRequestDTO;
-import com.travelplanner.feature.place.adapter.out.db.PlaceMapper;
+import com.travelplanner.core.trip.adapter.in.web.dto.create.TripRequestDTO;
 import org.springframework.stereotype.Component;
 
-import java.util.stream.Collectors;
+import java.time.LocalDate;
 
 @Component
 public class TripMapper {
 
     public TripEntity toEntity(TripModel model) {
-
 
         TripEntity entity = new TripEntity();
         DestinationEntity destination = new DestinationEntity();
@@ -25,16 +23,7 @@ public class TripMapper {
         entity.setStartDate(model.getStartDate());
         entity.setEndDate(model.getEndDate());
         entity.setBudget(model.getBudget());
-
-        var placeEntities = model.getSuggestedPlaces()
-                .stream()
-                .map(placeModel -> {
-                    var placeEntity = PlaceMapper.toEntity(placeModel);
-                    placeEntity.setTrip(entity); // Link the trip here
-                    return placeEntity;
-                })
-                .toList();
-        entity.setPlaces(placeEntities);
+        entity.setUserId(model.getUserId());
         return entity;
     }
 
@@ -50,6 +39,7 @@ public class TripMapper {
         model.setStartDate(entity.getStartDate());
         model.setEndDate(entity.getEndDate());
         model.setBudget(entity.getBudget());
+        model.setUserId(entity.getUserId());
         return model;
     }
 
@@ -58,6 +48,7 @@ public class TripMapper {
         trip.setName(dto.getName());
         trip.setStartDate(dto.getStartDate());
         trip.setEndDate(dto.getEndDate());
+        trip.setUserId(dto.getUserId());
 
         DestinationModel destination = new DestinationModel();
         destination.setCity(dto.getCity());
@@ -67,5 +58,15 @@ public class TripMapper {
 
         // You can set budget and id later if needed
         return trip;
+    }
+
+    public TripPlaceEntity toTripPlace(TripEntity trip, String placeId, Integer order, LocalDate visitDate, String notes) {
+        return TripPlaceEntity.builder()
+                .trip(trip)
+                .placeId(placeId)
+                .orderInTrip(order)
+                .visitDate(visitDate)
+                .notes(notes)
+                .build();
     }
 }
