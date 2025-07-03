@@ -59,7 +59,7 @@ public class UserCommandService implements UserCommandUseCase {
             null
         );
 
-        userRegisterEventProducer.sendRegisterEvent();
+        userRegisterEventProducer.sendRegisterEvent(userModel);
         return userPersistencePort.saveUser(userWithRoles);
     }
 
