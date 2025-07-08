@@ -24,10 +24,8 @@ public class UserRegisterEventProducer implements UserEventPort {
     }
 
     public void sendRegisterEvent(UserModel userModel) {
-
         KafkaEventDispatcher kafkaEventDispatcher = new KafkaEventDispatcher(properties(),"user-topic");
         kafkaEventDispatcher.sendEvent(userModel.email(),userModel);
-
     }
 
 
