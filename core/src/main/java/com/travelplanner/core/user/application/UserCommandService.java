@@ -41,27 +41,43 @@ public class UserCommandService implements UserCommandUseCase {
         this.userRegisterEventProducer = userRegisterEventProducer;
     }
 
+// UserCommandService.java
+
     @Override
     public UserRegisterResponseModel register(UserRegisterRequestModel userRegisterRequest) {
 
-        // Map basic fields from request to domain user model
-        UserModel userModel = UserMapper.fromRegister(userRegisterRequest);
-
-        // On registration
+        // 1. Hash the password first
         String hashedPassword = passwordEncoder.encode(userRegisterRequest.password());
 
-        // Create full domain user with role assigned
-        UserModel userWithRoles = new UserModel(
-                null, // id will be generated later
-                userModel.name(),
-                userModel.email(),
+        // 2. Create the complete user model with the hashed password
+        UserModel userToSave = new UserModel(
+                null,
+                userRegisterRequest.name(),
+                userRegisterRequest.email(),
                 hashedPassword,
-            null
+                null // Roles will be assigned by the persistence adapter
         );
 
-        userRegisterEventProducer.sendRegisterEvent(userModel);
-        return userPersistencePort.saveUser(userWithRoles);
+        // 3. Save the user to the database FIRST
+        UserRegisterResponseModel response = userPersistencePort.saveUser(userToSave);
+
+        // 4. Create a safe, non-sensitive event model
+        //    (You might want a dedicated model for events, e.g., UserRegisteredEvent)
+        UserModel userEventModel = new UserModel(
+                response.userId(), // Use the ID from the saved user
+                userRegisterRequest.name(),
+                userRegisterRequest.email(),
+                null, // NEVER include the password
+                null
+        );
+
+        // 5. Send the event AFTER the user is successfully saved
+        userRegisterEventProducer.sendRegisterEvent(userEventModel);
+
+        // 6. Return the response to the controller
+        return response;
     }
+
 
     @Override
     public UserLoginResponseModel login(UserLoginRequestModel userLoginRequest) {
