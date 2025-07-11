@@ -2,13 +2,10 @@ package com.travelplanner.core.trip.adapter.in.web.dto.create;
 
 import com.travelplanner.core.trip.domain.model.DestinationModel;
 import com.travelplanner.core.trip.domain.model.TripModel;
-import com.travelplanner.feature.place.adapter.in.web.dto.PlaceResponseDTO;
 import lombok.Builder;
 import lombok.Data;
 
 import java.time.LocalDate;
-import java.util.List;
-import java.util.stream.Collectors;
 
 @Data
 @Builder
