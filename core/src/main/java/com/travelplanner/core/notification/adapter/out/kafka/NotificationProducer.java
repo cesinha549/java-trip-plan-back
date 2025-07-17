@@ -1,9 +1,12 @@
 package com.travelplanner.core.notification.adapter.out.kafka;
 
+import com.travelplanner.core.notification.domain.model.notification.NotificationModel;
 import com.travelplanner.core.notification.domain.port.out.NotificationPort;
+import org.springframework.core.annotation.Order;
 import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.stereotype.Component;
 
+@Order(3)
 @Component
 public class NotificationProducer implements NotificationPort {
 
@@ -14,7 +17,13 @@ public class NotificationProducer implements NotificationPort {
     }
 
     @Override
-    public void sendEvent(String message) {
-//        kafkaTemplate.send("notification-events", message);
+    public boolean send(NotificationModel notification) {
+
+        return false;
     }
+
+//    @Override
+//    public void send(EmailModel message) {
+//
+//    }
 }

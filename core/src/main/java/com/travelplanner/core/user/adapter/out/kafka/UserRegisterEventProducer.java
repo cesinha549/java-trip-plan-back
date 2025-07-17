@@ -3,8 +3,10 @@ package com.travelplanner.core.user.adapter.out.kafka;
 
 import com.travelplanner.core.user.domain.model.UserModel;
 import com.travelplanner.core.user.domain.port.out.UserEventPort;
+import com.travelplanner.shared.kafka.CorrelationId;
 import com.travelplanner.shared.kafka.GsonSerializer;
 import com.travelplanner.shared.kafka.KafkaEventDispatcher;
+import com.travelplanner.shared.kafka.Message;
 import org.apache.kafka.clients.producer.ProducerConfig;
 import org.apache.kafka.common.serialization.StringSerializer;
 import org.springframework.stereotype.Component;
@@ -25,8 +27,9 @@ public class UserRegisterEventProducer implements UserEventPort {
     }
 
     public void sendRegisterEvent(UserModel userModel) {
+        var message = new Message<>(new CorrelationId(),userModel);
         KafkaEventDispatcher kafkaEventDispatcher = new KafkaEventDispatcher(properties(),"user-topic");
-        kafkaEventDispatcher.sendEvent(userModel.email(),userModel);
+        kafkaEventDispatcher.sendEvent(userModel.email(),message);
     }
 
 
