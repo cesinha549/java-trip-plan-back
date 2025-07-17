@@ -12,18 +12,16 @@ import java.util.Collections;
 import java.util.Properties;
 import java.util.UUID;
 
-public class KafkaEventIngester<T> implements Closeable {
+public class KafkaEventIngester implements Closeable {
 
-    private final KafkaConsumer<String, T> consumer;
+    private final KafkaConsumer<String, Message> consumer;
     private final ConsumerFunction parse;
     private final String groupId;
-    private final Class<EmailModel> typeConfig;
 
-    public KafkaEventIngester(String topic, ConsumerFunction parse, String groupId, Class<EmailModel> typeConfig) {
-        this.typeConfig = typeConfig;
+    public KafkaEventIngester(String topic, ConsumerFunction parse, String groupId) {
         this.parse = parse;
         this.groupId = groupId;
-        this.consumer = new KafkaConsumer<String,T>(this.properties());
+        this.consumer = new KafkaConsumer<>(this.properties());
         consumer.subscribe(Collections.singletonList(topic));
     }
 
@@ -46,13 +44,12 @@ public class KafkaEventIngester<T> implements Closeable {
         properties.setProperty(ConsumerConfig.VALUE_DESERIALIZER_CLASS_CONFIG, GsonDeserializer.class.getName());
         properties.setProperty(ConsumerConfig.GROUP_ID_CONFIG, groupId);
         properties.setProperty(ConsumerConfig.CLIENT_ID_CONFIG, UUID.randomUUID().toString());
-        properties.setProperty(GsonDeserializer.TYPE_CONFIG, typeConfig.getName());
         return properties;
     }
 
 
     @Override
     public void close() throws IOException {
-
+        consumer.close();
     }
 }

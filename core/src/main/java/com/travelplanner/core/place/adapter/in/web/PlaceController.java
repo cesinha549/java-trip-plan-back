@@ -46,4 +46,6 @@ public class PlaceController {
         List<PlaceResponseDTO> response = PlaceResponseDTO.fromDomainList(suggestions);
         return ResponseEntity.ok(response);
     }
+
+
 }

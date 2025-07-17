@@ -6,27 +6,13 @@ import org.apache.kafka.common.serialization.Deserializer;
 
 import java.util.Map;
 
-public class GsonDeserializer<T> implements Deserializer<T> {
+public class GsonDeserializer implements Deserializer<Message> {
 
-    public static final String TYPE_CONFIG = "br.alura.ecommerce.type.config";
-    private final Gson gson = new GsonBuilder().create();
-    private Class<?> type;
+    private final Gson gson =  new GsonBuilder().registerTypeAdapter(Message.class, new MessageAdapter()).create();;
 
     @Override
-    public void configure(Map<String, ?> configs, boolean isKey) {
-        String typeName = String.valueOf(configs.get(TYPE_CONFIG));
-        try {
-           this.type = Class.forName(typeName);
-            System.out.println("🧠 Deserializer configured for type: " + typeName);
-        } catch (ClassNotFoundException e) {
-            throw new RuntimeException("Type for deserealization does not exist on classpath",e);
-        }
-        Deserializer.super.configure(configs, isKey);
-    }
-
-    @Override
-    public T deserialize(String s, byte[] bytes) {
-        return gson.fromJson(new String(bytes), (Class<T>) type);
+    public Message deserialize(String s, byte[] bytes) {
+        return gson.fromJson(new String(bytes), Message.class);
     }
 
     @Override
